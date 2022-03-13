@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.scss';
-import AuthProvider from '../src/services/AuthContext'
-import Router from './router/Router';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.scss";
+import AuthProvider from "../src/services/AuthContext";
+import Router from "./router/Router";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -10,6 +10,5 @@ ReactDOM.render(
       <Router />
     </AuthProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
