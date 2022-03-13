@@ -1,0 +1,57 @@
+@import "./styles/constants.scss";
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.grid {
+  width: 1136px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.center-center {
+  display: flex;
+  align-items: center;
+}
+
+p {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: $font;
+  line-height: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 300;
+  font-family: $font;
+}
+
+h2 {
+  font-family: $font;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: $mainColor;
+}
+
+h3{
+  color: $terciaryColor;
+  font-family: $font;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;  
+}
+
+
+
