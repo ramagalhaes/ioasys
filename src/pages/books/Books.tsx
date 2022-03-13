@@ -73,7 +73,7 @@ const Books: React.FC = () => {
             {books?.map((item) => (
               <Book
                 key={item.id}
-                author={item.authors}
+                author={item?.authors.join(", ")}
                 title={item.title}
                 imageUrl={item.imageUrl}
                 pages={item.pageCount}
@@ -112,7 +112,7 @@ const Books: React.FC = () => {
         </main>
       </div>
 
-      {/* BOOK MODAL */}
+      {/* MODAL */}
       {showModal === true ? (
         <section className="modal-bg">
           <button className="action-btn close-btn" onClick={closeModal}>
@@ -124,7 +124,7 @@ const Books: React.FC = () => {
               <div className="book-details">
                 <div className="book-title">
                   <h1>{book?.title}</h1>
-                  <h3>{book?.authors}</h3>
+                  <h3>{book?.authors.join(", ")}</h3>
                 </div>
                 <div className="book-info">
                   <div>

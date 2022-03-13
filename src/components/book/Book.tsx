@@ -1,6 +1,5 @@
 import React from "react";
 import "./Book.scss";
-import Logo from "../../assets/images/Book 1.png";
 
 type BookProps = {
   imageUrl: string;
@@ -19,7 +18,7 @@ const Book: React.FC<BookProps> = ({
   pages,
   publisher,
   publishedAt,
-  onClick,
+  onClick
 }) => {
   return (
     <div className="book-container" onClick={onClick}>

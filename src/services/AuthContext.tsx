@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import React, { createContext, ReactNode, useState } from "react";
 import { User } from "../models/UserModel";
 import Api from "./Api";
 
@@ -22,6 +22,18 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext({} as AuthContextData);
 
+export async function refreshToken(): Promise<void> {
+  const expiredToken = localStorage.getItem("ioasys@refreshToken");
+  const response = await Api.post("/auth/refresh-token", {
+    refreshToken: expiredToken
+  });
+  const token = await response.headers?.authorization;
+  const refreshToken = await response.headers["refresh-token"];
+  localStorage.setItem("ioasys@token", token);
+  localStorage.setItem("ioasys@refreshToken", refreshToken);
+  console.log("fez refresh");
+}
+
 function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     const token = getToken();
@@ -44,20 +56,9 @@ function AuthProvider({ children }: AuthProviderProps) {
     setIsAuthenticated(false);
   }
 
-  async function refreshToken(): Promise<void> {
-    const expiredToken = localStorage.getItem("ioasys@refreshToken");
-    const response = await Api.post("/auth/refresh-token", {
-      refreshToken: expiredToken,
-    });
-    const token = await response.headers?.authorization;
-    const refreshToken = await response.headers["refresh-token"];
-    localStorage.setItem("ioasys@token", token);
-    localStorage.setItem("ioasys@refreshToken", refreshToken);
-  }
-
   async function signIn({
     email,
-    password,
+    password
   }: SignInCredentials): Promise<boolean> {
     try {
       const response = await Api.post("/auth/sign-in", { email, password });
@@ -82,7 +83,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         getToken,
         userData,
         signOut,
-        refreshToken,
+        refreshToken
       }}
     >
       {children}
