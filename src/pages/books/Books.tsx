@@ -8,15 +8,24 @@ import { BookModel } from "../../models/BookModel";
 import BookService from "../../services/BookService";
 import Quotes from "../../assets/images/Quotes.png";
 import Chevron from "../../assets/images/chevron.png";
+import { User } from "../../models/UserModel";
+import LogOut from "../../assets/images/LogOut.png";
 
 const Books: React.FC = () => {
+  // Persiste o nome do usuario mesmo se a URL for manipulada manualmente, useContext nao mantém!
+  const [userData, setUserData] = useState<User>(() => {
+    const user = localStorage.getItem("ioasys@user");
+    if (user) {
+      return JSON.parse(user);
+    }
+  });
   const [books, setBooks] = useState<BookModel[]>();
   const [book, setBook] = useState<BookModel>();
   const [totalPages, setTotalPages] = useState<number>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [showModal, setShowModal] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { signOut, userData } = useContext(AuthContext);
+  const { signOut } = useContext(AuthContext);
   const bookService = new BookService();
 
   async function fetchBooks(pageIndex: number): Promise<void> {
@@ -60,11 +69,11 @@ const Books: React.FC = () => {
             <h1>Books</h1>
           </div>
           <nav className="nav-menu">
-            <p>
+            <p className="welcome">
               Bem vindo, <b>{userData.name} !</b>
             </p>
             <button className="action-btn" onClick={performSignOut}>
-              X
+              <img src={LogOut} alt="" />
             </button>
           </nav>
         </header>
@@ -100,7 +109,7 @@ const Books: React.FC = () => {
               <img src={Chevron} alt="voltar pagina" />
             </button>
             <button
-              className="action-btn nav-btn"
+              className="action-btn nav-btn right"
               onClick={() => {
                 fetchBooks(currentPage + 1);
               }}
@@ -115,22 +124,24 @@ const Books: React.FC = () => {
       {/* MODAL */}
       {showModal === true ? (
         <section className="modal-bg">
-          <button className="action-btn close-btn" onClick={closeModal}>
-            X
-          </button>
+          <div className="modal-btn-container">
+            <button className="action-btn close-btn" onClick={closeModal}>
+              X
+            </button>
+          </div>
           <div className="modal-container">
-            <div className="modal">
+            <div className="modal modal-content">
               <img src={book?.imageUrl} alt="Capa do livro" />
-              <div className="book-details">
+              <div className="book-details modal-content">
                 <div className="book-title">
                   <h1>{book?.title}</h1>
                   <h3>{book?.authors.join(", ")}</h3>
                 </div>
-                <div className="book-info">
+                <div className="book-info modal-content">
                   <div>
                     <p>INFORMAÇÕES</p>
                   </div>
-                  <div className="info-details">
+                  <div className="info-details modal-content">
                     <div className="info-keys">
                       <p>Páginas</p>
                       <p>Editora</p>
@@ -154,7 +165,7 @@ const Books: React.FC = () => {
                     <p>RESENHA DA EDITORA</p>
                     <div className="sinopse-text">
                       <p>
-                        <img src={Quotes} alt="Aspas" />
+                        <img src={Quotes} alt="Aspas" className="quote" />
                         {book?.description}
                       </p>
                     </div>

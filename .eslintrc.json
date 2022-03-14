@@ -24,6 +24,6 @@
         "comma-dangle": ["warn", "never"],
         "comma-spacing": ["warn", {"before": false, "after": true}],
         "arrow-parens": ["error", "always"],
-        "semi": ["error", "always"]
+        "semi": ["warn", "always"]
     }
 }

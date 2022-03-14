@@ -11,7 +11,6 @@ type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<boolean>;
   isAuthenticated: boolean;
   getToken(): string;
-  userData: User;
   signOut(): void;
   refreshToken(): void;
 };
@@ -43,7 +42,6 @@ function AuthProvider({ children }: AuthProviderProps) {
       return false;
     }
   });
-  const [userData, setUserData] = useState<User>({} as User);
 
   function getToken(): string {
     const token = localStorage.getItem("ioasys@token");
@@ -53,6 +51,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   function signOut(): void {
     localStorage.removeItem("ioasys@token");
     localStorage.removeItem("ioasys@refreshToken");
+    localStorage.removeItem("ioasys@user");
     setIsAuthenticated(false);
   }
 
@@ -67,7 +66,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       const data: User = await response.data;
       localStorage.setItem("ioasys@token", authorization);
       localStorage.setItem("ioasys@refreshToken", refreshToken);
-      setUserData(data);
+      localStorage.setItem("ioasys@user", JSON.stringify(data));
       setIsAuthenticated(true);
       return false;
     } catch (error) {
@@ -81,7 +80,6 @@ function AuthProvider({ children }: AuthProviderProps) {
         signIn,
         isAuthenticated,
         getToken,
-        userData,
         signOut,
         refreshToken
       }}
