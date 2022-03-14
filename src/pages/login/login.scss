@@ -130,3 +130,18 @@ form {
     }
   }
 }
+
+@media screen and (max-width: 769px) {
+  .input-container{
+    width: 288px;
+    align-items: flex-start;
+  }
+  
+  .content {
+    width: 288px;
+  }
+
+  .center-center {
+    width: 320px;
+  }
+}
